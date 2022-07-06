@@ -44,6 +44,16 @@ let persons = [
 		name: 'Mary Poppendieck',
 		number: '39-23-6423122',
 	},
+	{
+		id: 5,
+		name: 'Chef Butkins',
+		number: '044-545-8334',
+	},
+	{
+		id: 6,
+		name: 'Johnny Rottes',
+		number: '044-060-9664',
+	},
 ];
 
 app.get('/api/persons', (request, response) => {
