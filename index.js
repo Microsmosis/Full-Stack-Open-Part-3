@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+require('dotenv').config();
 
 const Person = require('./models/person');
 
@@ -32,7 +32,7 @@ app.get('/api/persons', (request, response) => {
 	});
 });
 
-app.get('/info', (request, response) => {
+/* app.get('/info', (request, response) => {
 	let amount = persons.length;
 	let date = Date(response);
 	response.send(
@@ -82,4 +82,4 @@ app.post('/api/persons', (request, response) => {
 
 	persons = persons.concat(newPerson);
 	response.json(newPerson);
-});
+}); */
