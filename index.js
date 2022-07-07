@@ -13,7 +13,7 @@ const personSchema = new mongoose.Schema({
 
 personSchema.set('toJSON', {
 	transform: (document, returnedObject) => {
-		returnedObject.id = returnedObject._id.toString()
+		returnedObject.id = returnedObject.id.toString()
 		delete returnedObject._id
 		delete returnedObject.__v
 	}
@@ -36,12 +36,6 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
-let person = {
-	id: 1,
-	name: 'Arto Hellas',
-	number: '040-123456',
-};
 
 let persons = [
 	{
