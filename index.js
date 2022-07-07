@@ -50,36 +50,19 @@ app.delete('/api/persons/:id', (request, response) => {
 	const id = Number(request.params.id);
 	persons = persons.filter((person) => person.id !== id);
 	response.status(204).end();
-});
-
-let len = persons.length + 1;
-
-const newId = () => {
-	return Math.floor(Math.random(len, 100) * 101);
-};
+}); */
 
 app.post('/api/persons', (request, response) => {
 	const body = request.body;
-	const nam = persons.find((person) => person.name === body.name);
 
-	if (!body.name || !body.number) {
-		return response.status(400).json({
-			error: 'name or number missing',
-		});
-	}
-
-	if (nam) {
-		return response.status(400).json({
-			error: 'name already in use',
-		});
-	}
-
-	const newPerson = {
+	const newPerson = new Person({
 		name: body.name,
 		number: body.number,
-		id: newId(),
-	};
+		id: Math.floor(Math.random(10, 1000) * 1001)
+	});
 
-	persons = persons.concat(newPerson);
-	response.json(newPerson);
-}); */
+	newPerson.save()
+		.then(savedPerson => {
+			response.json(savedPerson)
+		})
+});

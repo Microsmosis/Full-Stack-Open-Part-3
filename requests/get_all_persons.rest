@@ -6,7 +6,9 @@ content-type: application/json
 
 {
   "name": "Gabor Babor",
-  "number": "040-123-456"
+  "number": "040-123-456",
+  "id": 420
 }
+
 ###
 DELETE https://sleepy-beyond-07389.herokuapp.com/api/persons/59
