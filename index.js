@@ -3,7 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const url = `mongodb+srv://llonnrot:fullstackopen@cluster0.eyuu3.mongodb.net/phonebookApp?retryWrites=true&w=majority`
+const url = `mongodb+srv://llonnrot:${process.env.MONGO_DB_PW}@cluster0.eyuu3.mongodb.net/phonebookApp?retryWrites=true&w=majority`
 mongoose.connect(url)
 const personSchema = new mongoose.Schema({
 	name: String,
