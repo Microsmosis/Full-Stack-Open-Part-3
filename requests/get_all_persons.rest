@@ -11,4 +11,4 @@ content-type: application/json
 }
 
 ###
-DELETE https://sleepy-beyond-07389.herokuapp.com/api/persons/59
+DELETE https://sleepy-beyond-07389.herokuapp.com/api/persons/194

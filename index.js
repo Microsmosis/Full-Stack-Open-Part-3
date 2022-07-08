@@ -7,6 +7,8 @@ const Person = require('./models/person');
 
 const app = express();
 app.use(express.json());
+app.use(express.static('build'));
+app.use(cors());
 
 morgan.token('person', (request, response) => {
 	return JSON.stringify(request.body);
@@ -17,9 +19,6 @@ app.use(
 		':method :url :status :res[content-length] - :response-time ms :person'
 	)
 );
-
-app.use(cors());
-app.use(express.static('build'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
@@ -38,19 +37,24 @@ app.get('/api/persons', (request, response) => {
 	response.send(
 		'<p>Phonebook has info for ' + amount + ' people</p><p>' + date + '</p'
 	);
-});
+}); */
 
 app.get('/api/persons/:id', (request, response) => {
 	let id = request.params.id;
-	let single = persons.find((person) => person.id === Number(id));
-	response.json(single);
-});
+	Person.find({id}).then((persons) => {
+		response.json(persons);
+	});
+}); 
 
-app.delete('/api/persons/:id', (request, response) => {
-	const id = Number(request.params.id);
-	persons = persons.filter((person) => person.id !== id);
-	response.status(204).end();
-}); */
+app.delete('/api/persons/:id', (request, response, next) => {
+	const id = request.params.id;
+	const num = Number.id
+	Person.findByIdAndRemove(num)
+		.then((result) => {
+			response.status(204).end();
+		})
+		.catch((error) => next(error));
+});
 
 app.post('/api/persons', (request, response) => {
 	const body = request.body;
@@ -58,11 +62,10 @@ app.post('/api/persons', (request, response) => {
 	const newPerson = new Person({
 		name: body.name,
 		number: body.number,
-		id: Math.floor(Math.random(10, 1000) * 1001)
+		id: Math.floor(Math.random(10, 1000) * 1001),
 	});
 
-	newPerson.save()
-		.then(savedPerson => {
-			response.json(savedPerson)
-		})
+	newPerson.save().then((savedPerson) => {
+		response.json(savedPerson);
+	});
 });
