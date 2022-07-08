@@ -1,7 +1,7 @@
-GET https://sleepy-beyond-07389.herokuapp.com/api/persons/
+GET http://localhost:3001/api/persons/
 
 ###
-POST https://sleepy-beyond-07389.herokuapp.com/api/persons/ HTTP/1.1
+POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
@@ -11,4 +11,13 @@ content-type: application/json
 }
 
 ###
-DELETE https://sleepy-beyond-07389.herokuapp.com/api/persons/194
+DELETE http://localhost:3001/api/persons/194
+
+###
+PUT http://localhost:3001/api/persons/62c811834597373063b7f5e2 HTTP/1.1
+content-type: application/json
+
+{
+  "name": "K",
+  "number": "2"
+}

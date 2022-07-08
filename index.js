@@ -25,33 +25,42 @@ app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
 
+const errorHandler = (error, request, response, next) => {
+	console.error(error.message);
+
+	if (error.name === 'CastError') {
+		return response.status(400).send({ error: 'malformatted id' });
+	}
+	next(error);
+};
+
 app.get('/api/persons', (request, response) => {
 	Person.find({}).then((persons) => {
 		response.json(persons);
 	});
 });
 
-/* app.get('/info', (request, response) => {
-	let amount = persons.length;
-	let date = Date(response);
-	response.send(
-		'<p>Phonebook has info for ' + amount + ' people</p><p>' + date + '</p'
-	);
-}); */
-
-app.get('/api/persons/:id', (request, response) => {
-	let id = request.params.id;
-	Person.find({id}).then((persons) => {
-		response.json(persons);
+app.get('/info', (request, response) => {
+	Person.find({}).then((persons) => {
+		let date = Date(response);
+		response.send(
+			'<p>Phonebook has info for ' +
+				persons.length +
+				' people</p><p>' +
+				date +
+				'</p'
+		);
 	});
-}); 
+});
 
-app.delete('/api/persons/:id', (request, response, next) => {
-	const id = request.params.id;
-	const num = Number.id
-	Person.findByIdAndRemove(num)
-		.then((result) => {
-			response.status(204).end();
+app.get('/api/persons/:id', (request, response, next) => {
+	Person.findById(request.params.id)
+		.then((persons) => {
+			if (persons) {
+				response.json(persons);
+			} else {
+				response.status(404).end();
+			}
 		})
 		.catch((error) => next(error));
 });
@@ -69,3 +78,29 @@ app.post('/api/persons', (request, response) => {
 		response.json(savedPerson);
 	});
 });
+
+app.put('/api/persons/:id', (request, response, next) => {
+	Person.findByIdAndUpdate(request.params.id, { number: request.body.number })
+		.then((result) => {
+			if (result) {
+				response.json(result);
+			} else {
+				response.status(404).end();
+			}
+		})
+		.catch((error) => next(error));
+});
+
+app.delete('/api/persons/:id', (request, response, next) => {
+	Person.findByIdAndRemove(request.params.id)
+		.then((result) => {
+			if (result) {
+				response.status(204).end();
+			} else {
+				response.status(404).end();
+			}
+		})
+		.catch((error) => next(error));
+});
+
+app.use(errorHandler);
