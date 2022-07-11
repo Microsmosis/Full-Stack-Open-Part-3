@@ -31,7 +31,7 @@ const personSchema = new mongoose.Schema({
 					return false
 				}
 			},
-			message: props => `${props.value} is not a valid phone number!`
+			message: props => `${props.value} is not a valid phone number! Min 8 digits, example: 09-123456`
 		},
 		required: [true, 'User phone number required']
 		},

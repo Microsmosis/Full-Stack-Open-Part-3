@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static('build'));
 app.use(cors());
 
-morgan.token('person', (request, response) => {
+morgan.token('person', (request) => {
 	return JSON.stringify(request.body);
 });
 
@@ -29,9 +29,9 @@ const errorHandler = (error, request, response, next) => {
 	console.error(error.message);
 
 	if (error.name === 'CastError') {
-		return response.status(400).send({ error: 'malformatted id' })
+		return response.status(400).send({ error: 'malformatted id' });
 	} else if (error.name === 'ValidationError') {
-		return response.status(400).json({ error: error.message })
+		return response.status(400).json({ error: error.message });
 	}
 	next(error);
 };
@@ -76,14 +76,20 @@ app.post('/api/persons', (request, response, next) => {
 		id: Math.floor(Math.random(10, 1000) * 1001),
 	});
 
-	newPerson.save().then((savedPerson) => {
-		response.json(savedPerson);
-	})
-	.catch(error => next(error))
+	newPerson
+		.save()
+		.then((savedPerson) => {
+			response.json(savedPerson);
+		})
+		.catch((error) => next(error));
 });
 
 app.put('/api/persons/:id', (request, response, next) => {
-	Person.findByIdAndUpdate(request.params.id, { number: request.body.number }, {new: true, runValidators: true, context: 'query'})
+	Person.findByIdAndUpdate(
+		request.params.id,
+		{ number: request.body.number },
+		{ new: true, runValidators: true, context: 'query' }
+	)
 		.then((result) => {
 			if (result) {
 				response.json(result);
